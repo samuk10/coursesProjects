@@ -10,6 +10,11 @@ Bem-vindo ao repositório de Projetos de Cursos! Este repositório foi criado pa
 
 1. **Branches:** Cada Projeto tem sua própria branch principal. Navegue entre as branches para ver os diferentes projetos.
 2. **Versões:** Dentro de cada branch, você encontrará diferentes versões da Projeto, cada uma utilizando uma tecnologia diferente.
+## How-To
+
+- Clonar repo
+- Criar nova branch
+- Quando fizer o push será criado um novo Índice
 ## Contribuições
 
 Ideia do Workflow: [Kadu](https://www.tabnews.com.br/Kadu/automatizacao-inteligente-no-github-mantendo-seu-readme-sempre-atualizado)
