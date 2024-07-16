@@ -68,9 +68,9 @@ jobs:
           echo "Enjoy! 😊" >> README.md
           echo "<h3 align="left">Connect with me:</h3>" >> README.md
           <p align="left"> >> README.md
-          echo '<a href="https://linkedin.com/in/samuel-sampaio-espindola" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="samuel-sampaio-espindola" height="30" width="40" /></a>' >> README.md
-          echo '<a href="https://www.youtube.com/c/samukarb" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="samukarb" height="30" width="40" /></a>'
-          echo '</p>' >> README.md
+          echo "<a href="https://linkedin.com/in/samuel-sampaio-espindola" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="samuel-sampaio-espindola" height="30" width="40" /></a>" >> README.md
+          echo "<a href="https://www.youtube.com/c/samukarb" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="samukarb" height="30" width="40" /></a>"
+          echo "</p>" >> README.md
     - name: Commit changes
       run: |
         git add README.md
