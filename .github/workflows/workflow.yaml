@@ -1,0 +1,74 @@
+name: Update README
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - README.md
+  schedule:
+    - cron: '0 */6 * * *'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.PAT }}
+    
+    - name: Set up Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Pull changes
+      run: git pull origin main --rebase
+
+    - name: Fetch all branches
+      run: git fetch --all
+
+    - name: Get list of branches
+      id: get_branches
+      run: |
+        branches=$(git branch -r | grep -v '\->' | grep -v 'main' | awk -F/ '{print $2}' | grep -v 'branch-base')
+        branches=$(echo $branches | tr ' ' '\n' | sort -u | tr '\n' ' ')
+        echo "branches=$branches" >> $GITHUB_ENV
+        echo "::set-output name=branches::$branches"
+
+    - name: Update README.md
+      run: |
+          git pull origin main
+          echo "# Repositório de Projetos de Cursos" > README.md
+          echo "" >> README.md
+          echo "Bem-vindo ao repositório de Projetos de Cursos! Este repositório foi criado para armazenar todas os projetos de Cursos que eu desenvolver como forma de estudo. Cada Projeto estará em uma branch separada, e você encontrará versões diferentes do mesmo Projeto utilizando tecnologias distintas." >> README.md
+          echo "" >> README.md
+          echo "## Índice de Projetos de Cursos" >> README.md
+          echo "" >> README.md
+          for branch in ${{ steps.get_branches.outputs.branches }}; do
+            echo "- [$branch](https://github.com/samuk10/coursesProjects/tree/$branch)" >> README.md
+          done
+          echo "" >> README.md
+          echo "## Como Navegar no Repositório" >> README.md
+          echo "" >> README.md
+          echo "1. **Branches:** Cada Projeto tem sua própria branch principal. Navegue entre as branches para ver os diferentes projetos." >> README.md
+          echo "2. **Versões:** Dentro de cada branch, você encontrará diferentes versões da Projeto, cada uma utilizando uma tecnologia diferente." >> README.md
+          echo "## Contribuições" >> README.md
+          echo "" >> README.md
+          echo "Ideia do Workflow: [Kadu](https://www.tabnews.com.br/Kadu/automatizacao-inteligente-no-github-mantendo-seu-readme-sempre-atualizado)" >> README.md
+          echo "" >> README.md
+          echo "---" >> README.md
+          echo "" >> README.md
+          echo "Enjoy! 😊" >> README.md
+    
+    - name: Commit changes
+      run: |
+        git add README.md
+        git diff-index --quiet HEAD || git commit -m 'Update README.md with branch links'
+        git push origin main
+
+    - name: Debugging
+      run: |
+        echo "Branches: ${{ steps.get_branches.outputs.branches }}"
+        cat README.md
