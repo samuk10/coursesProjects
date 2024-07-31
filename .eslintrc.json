@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    // "next/typescript",
+    "next"
+  ]
+  // "rules": {
+  //   "react/jsx-filename-extension": [
+  //     2,
+  //     {
+  //       "extensions": [
+  //         ".js",
+  //         ".jsx",
+  //         ".ts",
+  //         ".tsx"
+  //       ]
+  //     }
+  //   ]
+  // }
+}
