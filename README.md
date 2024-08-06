@@ -4,6 +4,7 @@ Bem-vindo ao repositório de Projetos de Cursos! Este repositório foi criado pa
 
 ## Índice de Projetos de Cursos
 
+- [DIO-Javascript-Developer](https://github.com/samuk10/coursesProjects/tree/DIO-Javascript-Developer)
 - [DIO-bootcamp-Python-AI-Backend-Developer](https://github.com/samuk10/coursesProjects/tree/DIO-bootcamp-Python-AI-Backend-Developer)
 - [ReactJS-Componentes](https://github.com/samuk10/coursesProjects/tree/ReactJS-Componentes)
 - [next-learning](https://github.com/samuk10/coursesProjects/tree/next-learning)
