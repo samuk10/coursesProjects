@@ -1,27 +1,27 @@
-import Header from "./_components/header";
-import { Button } from "./_components/ui/button";
-import Image from "next/image";
-import { db } from "./_lib/prisma";
-import BarbershopItem from "./_components/barbershop-item";
-import { quickSearchOptions } from "./_constants/search";
-import BookingItem from "./_components/booking-item";
-import Search from "./_components/search";
-import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./_lib/auth";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { getConfirmedBookings } from "./_data/get-confirmed-bookings";
+import Header from "./_components/header"
+import { Button } from "./_components/ui/button"
+import Image from "next/image"
+import { db } from "./_lib/prisma"
+import BarbershopItem from "./_components/barbershop-item"
+import { quickSearchOptions } from "./_constants/search"
+import BookingItem from "./_components/booking-item"
+import Search from "./_components/search"
+import Link from "next/link"
+import { getServerSession } from "next-auth"
+import { authOptions } from "./_lib/auth"
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
+import { getConfirmedBookings } from "./_data/get-confirmed-bookings"
 
 const Home = async () => {
-  const session = await getServerSession(authOptions);
-  const barbershops = await db.barbershop.findMany({});
+  const session = await getServerSession(authOptions)
+  const barbershops = await db.barbershop.findMany({})
   const popularBarbershops = await db.barbershop.findMany({
     orderBy: {
       name: "desc",
     },
-  });
-  const confirmedBookings = await getConfirmedBookings();
+  })
+  const confirmedBookings = await getConfirmedBookings()
 
   return (
     <div>
@@ -116,7 +116,7 @@ const Home = async () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
