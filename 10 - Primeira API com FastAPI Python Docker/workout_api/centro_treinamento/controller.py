@@ -37,35 +37,36 @@ async def post(
     return centro_treinamento_out
 
 
-# @router.get(
-#     "/",
-#     summary="Constulta todas as centro_treinamentos",
-#     status_code=status.HTTP_200_OK,
-#     response_model=list[CentroTreinamentoOut],
-# )
-# async def query(db_session: DatabaseDependency) -> list[CentroTreinamentoOut]:
-#     centro_treinamentos: list[CentroTreinamentoOut] = (
-#         (await db_session.execute(select(CentroTreinamentoModel))).scalars().all()
-#     )
-#     return centro_treinamentos
+@router.get(
+    "/",
+    summary="Constulta todas os centro_treinamentos",
+    status_code=status.HTTP_200_OK,
+    response_model=list[CentroTreinamentoOut],
+)
+async def query(db_session: DatabaseDependency) -> list[CentroTreinamentoOut]:
+    centros_treinamentos: list[CentroTreinamentoOut] = (
+        (await db_session.execute(select(CentroTreinamentoModel))).scalars().all()
+    )
+    return centros_treinamentos
 
 
-# @router.get(
-#     "/{id}",
-#     summary="Constulta uma centro_treinamentos pelo id",
-#     status_code=status.HTTP_200_OK,
-#     response_model=CentroTreinamentoOut,
-# )
-# async def query_one(id: UUID4, db_session: DatabaseDependency) -> CentroTreinamentoOut:
-#     centro_treinamento: CentroTreinamentoOut = (
-#         (await db_session.execute(select(CentroTreinamentoModel).filter_by(id=id)))
-#         .scalars()
-#         .first()
-#     )
-#     if not centro_treinamento:
-#         raise HTTPException(
-#             status.HTTP_404_NOT_FOUND,
-#             detail=f"Centro_treinamento não encontrada no id: {id}",
-#         )
+@router.get(
+    "/{id}",
+    summary="Constulta um centro_treinamentos pelo id",
+    status_code=status.HTTP_200_OK,
+    response_model=CentroTreinamentoOut,
+)
+async def query_one(id: UUID4, db_session: DatabaseDependency) -> CentroTreinamentoOut:
+    centro_treinamento: CentroTreinamentoOut = (
+        (await db_session.execute(select(CentroTreinamentoModel).filter_by(id=id)))
+        .scalars()
+        .first()
+    )
 
-#     return centro_treinamento
+    if not centro_treinamento:
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND,
+            detail=f"Centro de Treinamento não encontrado no id: {id}",
+        )
+
+    return centro_treinamento
