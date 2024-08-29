@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from pydantic import Field, PositiveFloat
-from workout_api.contrib.schemas import BaseSchema
+from workout_api.contrib.schemas import BaseSchema, OutMixin
 
 
 class Atleta(BaseSchema):
@@ -36,3 +36,11 @@ class Atleta(BaseSchema):
             max_length=1,
         ),
     ]
+
+
+class AtletaIn(Atleta):
+    pass
+
+
+class AtletaOut(Atleta, OutMixin):
+    pass

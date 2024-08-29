@@ -1,8 +1,5 @@
 from fastapi import FastAPI
+from workout_api.routers import api_router
 
 app = FastAPI(title="Workout API")
-
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app.include_router(api_router)
