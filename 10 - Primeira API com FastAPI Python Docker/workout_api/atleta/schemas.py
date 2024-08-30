@@ -52,6 +52,16 @@ class AtletaOut(Atleta, OutMixin):
     pass
 
 
+class AtletaOutClean(OutMixin):
+    nome: Annotated[
+        str, Field(description="Nome do atleta", examples=["João"], max_length=50)
+    ]
+    categoria: Annotated[CategoriaIn, Field(description="Categoria do Atleta")]
+    centro_treinamento: Annotated[
+        CentroTreinamentoAtleta, Field(description="Centro de Treinamento do Atleta")
+    ]
+
+
 class AtletaUpdate(BaseSchema):
     nome: Annotated[
         Optional[str],

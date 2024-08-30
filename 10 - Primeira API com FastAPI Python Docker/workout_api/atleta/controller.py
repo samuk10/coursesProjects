@@ -1,11 +1,12 @@
 from datetime import datetime
+from typing import List
 from uuid import uuid4
 
 from fastapi import APIRouter, Body, HTTPException, status
 from pydantic import UUID4
 from sqlalchemy.future import select
 from workout_api.atleta.models import AtletaModel
-from workout_api.atleta.schemas import AtletaIn, AtletaOut, AtletaUpdate
+from workout_api.atleta.schemas import AtletaIn, AtletaOut, AtletaOutClean, AtletaUpdate
 from workout_api.categorias.models import CategoriaModel
 from workout_api.centro_treinamento.models import CentroTreinamentoModel
 from workout_api.contrib.dependencies import DatabaseDependency
@@ -15,7 +16,7 @@ router = APIRouter()
 
 @router.post(
     "/",
-    summary="Cria um novo atleta",
+    summary="Criar um novo atleta",
     status_code=status.HTTP_201_CREATED,
     response_model=AtletaOut,
 )
@@ -35,8 +36,8 @@ async def post(db_session: DatabaseDependency, atleta_in: AtletaIn = Body(...)):
 
     if not categoria:
         raise HTTPException(
-            status.HTTP_400_BAD_REQUEST,
-            detail=f"A categoria {categoria_nome} não foi encontrada",
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"A categoria {categoria_nome} não foi encontrada.",
         )
 
     centro_treinamento = (
@@ -51,18 +52,17 @@ async def post(db_session: DatabaseDependency, atleta_in: AtletaIn = Body(...)):
 
     if not centro_treinamento:
         raise HTTPException(
-            status.HTTP_400_BAD_REQUEST,
-            detail=f"O Centro de Treinamento {centro_treinamento_nome} não foi encontrado",
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"O centro de treinamento {centro_treinamento_nome} não foi encontrado.",
         )
-
     try:
         atleta_out = AtletaOut(
             id=uuid4(), created_at=datetime.utcnow(), **atleta_in.model_dump()
         )
-
         atleta_model = AtletaModel(
             **atleta_out.model_dump(exclude={"categoria", "centro_treinamento"})
         )
+
         atleta_model.categoria_id = categoria.pk_id
         atleta_model.centro_treinamento_id = centro_treinamento.pk_id
 
@@ -70,25 +70,33 @@ async def post(db_session: DatabaseDependency, atleta_in: AtletaIn = Body(...)):
         await db_session.commit()
     except Exception:
         raise HTTPException(
-            status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Ocorreu um erro ao inserir dados no banco de dados",
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Ocorreu um erro ao inserir os dados no banco",
         )
 
     return atleta_out
 
 
-# *- Get -*
+# *- Get all-*
 @router.get(
     "/",
     summary="Constulta todos os Atletas",
     status_code=status.HTTP_200_OK,
-    response_model=list[AtletaOut],
+    response_model=list[AtletaOutClean],
 )
-async def query(db_session: DatabaseDependency) -> list[AtletaOut]:
-    atletas: list[AtletaOut] = (
-        (await db_session.execute(select(AtletaModel))).scalars().all()
-    )
-    return [AtletaOut.model_validate(atleta) for atleta in atletas]
+async def query(
+    db_session: DatabaseDependency,
+    nome: str | None = None,
+    cpf: str | None = None,
+) -> list[AtletaOutClean]:
+    query_ = select(AtletaModel)
+    if nome:
+        query_ = query_.filter_by(nome=nome)
+    if cpf:
+        query_ = query_.filter_by(cpf=cpf)
+
+    atletas: list[AtletaModel] = (await db_session.execute(query_)).scalars().all()
+    return [AtletaOutClean.from_orm(atleta) for atleta in atletas]
 
 
 # *- Get By Id-*
