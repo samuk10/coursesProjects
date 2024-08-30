@@ -35,24 +35,29 @@ Para vincular um usuario a uma conta, filtre a lista de usuarios pelo CPF.
 
 """
 
+
 def cadastrar_usuario(usuarios):
     nome = input("Informe o nome do usuário: ")
     data_nascimento = input("Informe a data de nascimento (dd/mm/aaaa): ")
     cpf = input("Informe o CPF (somente números): ")
-    endereco = input("Informe o endereço (logradouro, nro - bairro - Cidade/Sigla do Estado): ")
+    endereco = input(
+        "Informe o endereco (logradouro, nro - bairro - Cidade/Sigla do Estado): "
+    )
 
     # Verifica se já existe um usuário com o mesmo CPF
     for usuario in usuarios:
-        if usuario['cpf'] == cpf:
+        if usuario["cpf"] == cpf:
             print("Já existe um usuário com esse CPF.")
             return
-    
-    usuarios.append({
-        "nome": nome,
-        "data_nascimento": data_nascimento,
-        "cpf": cpf,
-        "endereco": endereco
-    })
+
+    usuarios.append(
+        {
+            "nome": nome,
+            "data_nascimento": data_nascimento,
+            "cpf": cpf,
+            "endereco": endereco,
+        }
+    )
 
     print("Usuário cadastrado com sucesso!")
 
@@ -63,7 +68,7 @@ def cadastrar_conta_corrente(usuarios, contas, numero_conta):
     # Procura pelo usuário com o CPF informado
     usuario = None
     for u in usuarios:
-        if u['cpf'] == cpf:
+        if u["cpf"] == cpf:
             usuario = u
             break
 
@@ -71,11 +76,7 @@ def cadastrar_conta_corrente(usuarios, contas, numero_conta):
         print("Usuário não encontrado.")
         return
 
-    contas.append({
-        "agencia": "0001",
-        "numero_conta": numero_conta,
-        "usuario": usuario
-    })
+    contas.append({"agencia": "0001", "numero_conta": numero_conta, "usuario": usuario})
 
     print("Conta corrente cadastrada com sucesso!")
 
@@ -86,7 +87,9 @@ def listar_contas(contas):
     else:
         for conta in contas:
             usuario = conta["usuario"]
-            print(f"Agência: {conta['agencia']}, Conta: {conta['numero_conta']}, Usuário: {usuario['nome']}, CPF: {usuario['cpf']}")
+            print(
+                f"Agência: {conta['agencia']}, Conta: {conta['numero_conta']}, Usuário: {usuario['nome']}, CPF: {usuario['cpf']}"
+            )
 
 
 def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saques):
@@ -128,6 +131,7 @@ def exibir_extrato(saldo, /, *, extrato):
     print(f"\nSaldo: R$ {saldo:.2f}")
     print("==========================================")
 
+
 def main():
     # Inicialização das listas e variáveis
     usuarios = []
@@ -154,8 +158,6 @@ def main():
     [e] Extrato
     [q] Sair
     => """
-
-
 
     while True:
         opcao_principal = input(menu_principal)
@@ -192,8 +194,12 @@ def main():
                 elif opcao_conta == "s":
                     valor = float(input("Informe o valor do saque: "))
                     saldo, extrato, numero_saques = sacar(
-                        saldo=saldo, valor=valor, extrato=extrato, limite=limite, 
-                        numero_saques=numero_saques, limite_saques=LIMITE_SAQUES
+                        saldo=saldo,
+                        valor=valor,
+                        extrato=extrato,
+                        limite=limite,
+                        numero_saques=numero_saques,
+                        limite_saques=LIMITE_SAQUES,
                     )
                     exibir_extrato(saldo, extrato=extrato)
                     print(f"Saques restantes: {LIMITE_SAQUES - numero_saques}")
@@ -205,9 +211,13 @@ def main():
                     break
 
                 else:
-                    print("Operação inválida, por favor selecione novamente a operação desejada.")
+                    print(
+                        "Operação inválida, por favor selecione novamente a operação desejada."
+                    )
         elif opcao_principal == "5":
             break
         else:
             print("Opção inválida, por favor selecione novamente a operação desejada.")
+
+
 main()
