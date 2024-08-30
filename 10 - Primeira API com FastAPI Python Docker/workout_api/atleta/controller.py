@@ -1,8 +1,9 @@
 from datetime import datetime
-from typing import List
 from uuid import uuid4
 
-from fastapi import APIRouter, Body, HTTPException, status
+from fastapi import APIRouter, Body, HTTPException, Query, status
+from fastapi_pagination import Page, add_pagination, paginate
+from fastapi_pagination.bases import AbstractPage
 from pydantic import UUID4
 from sqlalchemy.future import select
 from workout_api.atleta.models import AtletaModel
@@ -14,6 +15,7 @@ from workout_api.contrib.dependencies import DatabaseDependency
 router = APIRouter()
 
 
+# *** Post **
 @router.post(
     "/",
     summary="Criar um novo atleta",
@@ -91,23 +93,30 @@ async def post(db_session: DatabaseDependency, atleta_in: AtletaIn = Body(...)):
 # *- Get all-*
 @router.get(
     "/",
-    summary="Constulta todos os Atletas",
+    summary="Consultar todos os Atletas",
     status_code=status.HTTP_200_OK,
-    response_model=list[AtletaOutClean],
+    response_model=Page[AtletaOutClean],
 )
+# Adicionar paginação utilizando a lib: fastapi-pagination
+#    - limit e offset
+# Permitir consultar por nome e ou CPF#
 async def query(
     db_session: DatabaseDependency,
-    nome: str | None = None,
-    cpf: str | None = None,
-) -> list[AtletaOutClean]:
-    query_ = select(AtletaModel)
-    if nome:
-        query_ = query_.filter_by(nome=nome)
-    if cpf:
-        query_ = query_.filter_by(cpf=cpf)
+    nome: str = Query(None),
+    cpf: str = Query(None),
+    limit: int = Query(10, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+) -> AbstractPage[AtletaOutClean]:
+    query = select(AtletaModel)
 
-    atletas: list[AtletaModel] = (await db_session.execute(query_)).scalars().all()
-    return [AtletaOutClean.from_orm(atleta) for atleta in atletas]
+    if nome:
+        query = query.filter(AtletaModel.nome.ilike(f"%{nome}%"))
+
+    if cpf:
+        query = query.filter(AtletaModel.cpf == cpf)
+
+    atletas = (await db_session.execute(query)).scalars().all()
+    return paginate(atletas)
 
 
 # *- Get By Id-*
@@ -177,3 +186,6 @@ async def query(id: UUID4, db_session: DatabaseDependency) -> None:
         )
     await db_session.delete(atleta)
     await db_session.commit()
+
+
+add_pagination(router)
