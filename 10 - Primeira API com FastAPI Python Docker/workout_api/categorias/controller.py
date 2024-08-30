@@ -17,6 +17,20 @@ router = APIRouter()
 async def post(
     db_session: DatabaseDependency, categoria_in: CategoriaIn = Body(...)
 ) -> CategoriaOut:
+    verificar_categoria = (
+        (
+            await db_session.execute(
+                select(CategoriaModel).filter_by(nome=categoria_in.nome)
+            )
+        )
+        .scalars()
+        .first()
+    )
+    if verificar_categoria:
+        raise HTTPException(
+            status_code=status.HTTP_303_SEE_OTHER,
+            detail=f"Já existe uma categoria cadastrada com o nome: {categoria_in.nome}",
+        )
 
     categoria_out = CategoriaOut(id=uuid4(), **categoria_in.model_dump())
     categoria_model = CategoriaModel(**categoria_out.model_dump())
