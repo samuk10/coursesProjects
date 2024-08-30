@@ -1,6 +1,8 @@
 from typing import Annotated
 
 from pydantic import Field, PositiveFloat
+from workout_api.categorias.schemas import CategoriaIn
+from workout_api.centro_treinamento.schemas import CentroTreinamentoAtleta
 from workout_api.contrib.schemas import BaseSchema, OutMixin
 
 
@@ -35,6 +37,10 @@ class Atleta(BaseSchema):
             examples=["M"],
             max_length=1,
         ),
+    ]
+    categoria: Annotated[CategoriaIn, Field(description="Categoria do Atleta")]
+    centro_treinamento: Annotated[
+        CentroTreinamentoAtleta, Field(description="Centro de Treinamento do Atleta")
     ]
 
 
