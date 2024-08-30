@@ -24,6 +24,17 @@ async def post(db_session: DatabaseDependency, atleta_in: AtletaIn = Body(...)):
     categoria_nome = atleta_in.categoria.nome
     centro_treinamento_nome = atleta_in.centro_treinamento.nome
 
+    verificar_cpf = (
+        (await db_session.execute(select(AtletaModel).filter_by(cpf=atleta_in.cpf)))
+        .scalars()
+        .first()
+    )
+    if verificar_cpf:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Já existe um atleta cadastrado com o cpf: {atleta_in.cpf}",
+        )
+
     categoria = (
         (
             await db_session.execute(
