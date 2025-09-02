@@ -6,6 +6,7 @@ Bem-vindo ao repositório de Projetos de Cursos! Este repositório foi criado pa
 
 - [DIO-Javascript-Developer](https://github.com/samuk10/coursesProjects/tree/DIO-Javascript-Developer)
 - [DIO-bootcamp-Python-AI-Backend-Developer](https://github.com/samuk10/coursesProjects/tree/DIO-bootcamp-Python-AI-Backend-Developer)
+- [FreeCodeCamp-Python-Youtube-8Hours](https://github.com/samuk10/coursesProjects/tree/FreeCodeCamp-Python-Youtube-8Hours)
 - [ReactJS-Componentes](https://github.com/samuk10/coursesProjects/tree/ReactJS-Componentes)
 - [next-learning](https://github.com/samuk10/coursesProjects/tree/next-learning)
 - [next.js-fsw-barber](https://github.com/samuk10/coursesProjects/tree/next.js-fsw-barber)
@@ -27,7 +28,7 @@ Ideia do Workflow: [Kadu](https://www.tabnews.com.br/Kadu/automatizacao-intelige
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
-<a href=https://linkedin.com/in/samuel-sampaio-espindola target=blank><img align=center src=https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg alt=samuel-sampaio-espindola height=30 width=40 /></a>
-<a href=https://www.youtube.com/c/samukarb target=blank><img align=center src=https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg alt=samukarb height=30 width=40 /></a>
+<a href="https://linkedin.com/in/samuel-sampaio-espindola" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="samuel-sampaio-espindola" height="30" width="40" /></a>
+<a href="https://www.youtube.com/c/samukarb" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/youtube.svg" alt="samukarb" height="30" width="40" /></a>
 </p>
 Enjoy! 😊
